@@ -9,6 +9,7 @@ import { Categories } from './pages/Categories'
 import { NotFound } from './pages/NotFound'
 import { Sidebar } from './components/Sidebar'
 import { Header } from './components/Header'
+import { env } from './env'
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -20,7 +21,7 @@ function AppLayout() {
         onClose={() => setSidebarOpen(false)}
       />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title={"Expense Tracker"} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <Header title={env.APP_TITLE} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 overflow-auto p-6">
           <Routes>
             <Route path="/" element={<Dashboard />} />
