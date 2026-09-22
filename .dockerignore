@@ -1,7 +1,34 @@
+# Exclude host node_modules — the Docker build installs its own
+# inside the container via `npm ci`, ensuring platform-compatible binaries.
 node_modules
+
+# Exclude local environment overrides and sensitive files
+.env
+.env.*
+!.env.example
+
+# Exclude VCS metadata, editor configs, and local tooling
 .git
+.gitignore
+.github
+
+# Exclude editor/IDE directories
+.vscode
+.idea
+*.swp
+*.swo
+
+# Exclude OS-generated files
+.DS_Store
+Thumbs.db
+
+# Exclude build output (will be generated inside the container)
 dist
 build
 .next
+
+# Exclude test/coverage artifacts
 coverage
 *.log
+*.test.*
+*.spec.*
