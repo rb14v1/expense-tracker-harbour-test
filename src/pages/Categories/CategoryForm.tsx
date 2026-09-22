@@ -15,7 +15,7 @@ export default function CategoryForm({ editing, onSubmit, onCancel }: Props) {
   useEffect(() => {
     if (editing) {
       setName(editing.name);
-      setColor(editing.color);
+      setColor(editing.color ?? '#3b82f6');
       setBudget(editing.budget !== undefined ? String(editing.budget) : '');
     } else {
       setName('');
