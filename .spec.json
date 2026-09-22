@@ -1,0 +1,485 @@
+{
+  "appName": "Expense Tracker",
+  "domainModel": {
+    "entities": [
+      {
+        "name": "Expense",
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "required": true
+          },
+          {
+            "name": "date",
+            "type": "date",
+            "required": true
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "reimbursed",
+            "type": "boolean",
+            "required": true
+          },
+          {
+            "name": "submittedBy",
+            "type": "string",
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "Category",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "color",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "budget",
+            "type": "number",
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  "pages": [
+    {
+      "name": "Dashboard",
+      "route": "/",
+      "purpose": "Overview of total spend per category and reimbursement status",
+      "components": [
+        "CategoryTotalsChart",
+        "RecentExpensesList",
+        "SummaryCards"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Expense",
+      "dataNeeds": [
+        "Expense",
+        "Category"
+      ]
+    },
+    {
+      "name": "ExpensesList",
+      "route": "/expenses",
+      "purpose": "List all expenses with filter by category and search by title",
+      "components": [
+        "SearchBar",
+        "CategoryFilter",
+        "ExpenseTable"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Expense",
+      "dataNeeds": [
+        "Expense",
+        "Category"
+      ]
+    },
+    {
+      "name": "NewExpense",
+      "route": "/expenses/new",
+      "purpose": "Create a new expense entry",
+      "components": [
+        "ExpenseForm"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Expense",
+      "dataNeeds": [
+        "Category"
+      ],
+      "formFields": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "number"
+        },
+        {
+          "name": "category",
+          "type": "enum",
+          "options": [
+            "Travel",
+            "Meals",
+            "Software",
+            "Office Supplies",
+            "Training",
+            "Other"
+          ]
+        },
+        {
+          "name": "date",
+          "type": "date"
+        },
+        {
+          "name": "note",
+          "type": "string"
+        },
+        {
+          "name": "reimbursed",
+          "type": "boolean"
+        },
+        {
+          "name": "submittedBy",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ExpenseDetail",
+      "route": "/expenses/:id",
+      "purpose": "View details of a single expense and toggle reimbursed status",
+      "components": [
+        "ExpenseDetailCard",
+        "ReimburseToggle"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Expense",
+      "dataNeeds": [
+        "Expense"
+      ]
+    },
+    {
+      "name": "EditExpense",
+      "route": "/expenses/:id/edit",
+      "purpose": "Edit an existing expense",
+      "components": [
+        "ExpenseForm"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Expense",
+      "dataNeeds": [
+        "Expense",
+        "Category"
+      ],
+      "formFields": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "number"
+        },
+        {
+          "name": "category",
+          "type": "enum",
+          "options": [
+            "Travel",
+            "Meals",
+            "Software",
+            "Office Supplies",
+            "Training",
+            "Other"
+          ]
+        },
+        {
+          "name": "date",
+          "type": "date"
+        },
+        {
+          "name": "note",
+          "type": "string"
+        },
+        {
+          "name": "reimbursed",
+          "type": "boolean"
+        },
+        {
+          "name": "submittedBy",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "route": "/categories",
+      "purpose": "Manage expense categories",
+      "components": [
+        "CategoryList",
+        "CategoryForm"
+      ],
+      "requiresAuth": false,
+      "primaryEntity": "Category",
+      "dataNeeds": [
+        "Category"
+      ],
+      "formFields": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "string"
+        },
+        {
+          "name": "budget",
+          "type": "number"
+        }
+      ]
+    }
+  ],
+  "apis": [
+    {
+      "method": "GET",
+      "path": "expenses",
+      "purpose": "Load all expenses from localStorage",
+      "requiresAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "expenses",
+      "purpose": "Create a new expense",
+      "requiresAuth": false
+    },
+    {
+      "method": "PUT",
+      "path": "expenses",
+      "purpose": "Update an expense",
+      "requiresAuth": false
+    },
+    {
+      "method": "DELETE",
+      "path": "expenses",
+      "purpose": "Delete an expense",
+      "requiresAuth": false
+    },
+    {
+      "method": "GET",
+      "path": "categories",
+      "purpose": "Load all categories",
+      "requiresAuth": false
+    },
+    {
+      "method": "POST",
+      "path": "categories",
+      "purpose": "Create a new category",
+      "requiresAuth": false
+    },
+    {
+      "method": "PUT",
+      "path": "categories",
+      "purpose": "Update a category",
+      "requiresAuth": false
+    },
+    {
+      "method": "DELETE",
+      "path": "categories",
+      "purpose": "Delete a category",
+      "requiresAuth": false
+    }
+  ],
+  "workflows": [
+    {
+      "name": "Log Expense",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "Team Member",
+          "action": "Open new expense form",
+          "nextStatus": "drafting"
+        },
+        {
+          "step": 2,
+          "actor": "Team Member",
+          "action": "Fill title, amount, category, date, note",
+          "nextStatus": "pending"
+        },
+        {
+          "step": 3,
+          "actor": "Team Member",
+          "action": "Save expense",
+          "nextStatus": "logged"
+        }
+      ]
+    },
+    {
+      "name": "Reimburse Expense",
+      "steps": [
+        {
+          "step": 1,
+          "actor": "Manager",
+          "action": "Open expense detail",
+          "nextStatus": "reviewing"
+        },
+        {
+          "step": 2,
+          "actor": "Manager",
+          "action": "Toggle reimbursed to true",
+          "nextStatus": "reimbursed"
+        }
+      ]
+    }
+  ],
+  "styling": {
+    "framework": "Tailwind",
+    "components": "React",
+    "theme": "Version1",
+    "colors": {
+      "primary": "#00c6c2",
+      "dark": "#052831",
+      "cream": "#fdf7ea"
+    }
+  },
+  "dependencies": [
+    "react",
+    "react-router-dom",
+    "tailwindcss",
+    "lucide-react"
+  ],
+  "riskFactors": [
+    "localStorage size limits with many expenses",
+    "No real authentication for internal use",
+    "Data loss if browser storage cleared"
+  ],
+  "hardcodedData": {
+    "expenses": [
+      {
+        "title": "Client dinner in Boston",
+        "amount": 142.5,
+        "category": "Meals",
+        "date": "2024-11-14",
+        "note": "Dinner with Acme Corp team after Q4 kickoff",
+        "reimbursed": true,
+        "submittedBy": "Sarah Chen"
+      },
+      {
+        "title": "Figma team subscription",
+        "amount": 540,
+        "category": "Software",
+        "date": "2024-11-10",
+        "note": "Annual renewal for design team of 12",
+        "reimbursed": true,
+        "submittedBy": "Marcus Wright"
+      },
+      {
+        "title": "Uber to airport",
+        "amount": 38.75,
+        "category": "Travel",
+        "date": "2024-11-18",
+        "note": "Conference travel to SF",
+        "reimbursed": false,
+        "submittedBy": "Priya Patel"
+      },
+      {
+        "title": "Flight to ReactConf",
+        "amount": 612,
+        "category": "Travel",
+        "date": "2024-11-05",
+        "note": "Round trip JFK to SFO",
+        "reimbursed": false,
+        "submittedBy": "Priya Patel"
+      },
+      {
+        "title": "Standing desk mat",
+        "amount": 79.99,
+        "category": "Office Supplies",
+        "date": "2024-10-28",
+        "note": "Ergonomic upgrade for home office",
+        "reimbursed": true,
+        "submittedBy": "David Kim"
+      },
+      {
+        "title": "Advanced TypeScript course",
+        "amount": 199,
+        "category": "Training",
+        "date": "2024-11-02",
+        "note": "Online course on Frontend Masters",
+        "reimbursed": true,
+        "submittedBy": "Sarah Chen"
+      },
+      {
+        "title": "Team lunch",
+        "amount": 87.4,
+        "category": "Meals",
+        "date": "2024-11-15",
+        "note": "Sprint retro lunch for 6",
+        "reimbursed": false,
+        "submittedBy": "Marcus Wright"
+      },
+      {
+        "title": "GitHub Copilot annual",
+        "amount": 100,
+        "category": "Software",
+        "date": "2024-10-20",
+        "note": "Individual license",
+        "reimbursed": true,
+        "submittedBy": "David Kim"
+      },
+      {
+        "title": "Notebooks and pens",
+        "amount": 24.3,
+        "category": "Office Supplies",
+        "date": "2024-11-08",
+        "note": "Restocked office supplies",
+        "reimbursed": true,
+        "submittedBy": "Jenna Ortiz"
+      },
+      {
+        "title": "Conference ticket ReactConf",
+        "amount": 899,
+        "category": "Training",
+        "date": "2024-10-15",
+        "note": "Early bird registration",
+        "reimbursed": false,
+        "submittedBy": "Priya Patel"
+      }
+    ],
+    "categories": [
+      {
+        "name": "Travel",
+        "color": "#00c6c2",
+        "budget": 5000
+      },
+      {
+        "name": "Meals",
+        "color": "#f59e0b",
+        "budget": 1500
+      },
+      {
+        "name": "Software",
+        "color": "#8b5cf6",
+        "budget": 3000
+      },
+      {
+        "name": "Office Supplies",
+        "color": "#10b981",
+        "budget": 800
+      },
+      {
+        "name": "Training",
+        "color": "#ef4444",
+        "budget": 4000
+      },
+      {
+        "name": "Other",
+        "color": "#6b7280",
+        "budget": 500
+      }
+    ]
+  }
+}
