@@ -18,6 +18,8 @@ RUN addgroup --system --gid 1001 nodejs \
 
 COPY --from=builder --chown=nodeuser:nodejs /app ./
 
+RUN chown -R nodeuser:nodejs /app
+
 USER nodeuser
 
 EXPOSE 8080
