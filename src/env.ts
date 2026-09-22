@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Centralised runtime environment configuration.
  *
