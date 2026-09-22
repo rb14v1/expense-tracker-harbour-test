@@ -48,6 +48,10 @@ export default defineConfig(({ mode }) => {
     },
     preview: {
       port,
+      // Azure Container Apps' ingress presents the app's own FQDN as the Host header.
+      // Vite's preview server rejects unrecognized hosts by default (403 "Blocked request"),
+      // which looks identical to a TCP-level failure from outside but is purely an app-layer check.
+      allowedHosts: true,
     },
     build: {
       outDir: 'dist',
