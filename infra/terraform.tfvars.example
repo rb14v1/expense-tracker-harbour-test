@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars and fill in the values before running
+# terraform plan / terraform apply.
+#
+# These three tags are mandatory for cost allocation, incident attribution,
+# and automated governance.  They are propagated to ALL child resources
+# automatically via the AWS provider default_tags block in main.tf.
+
+tenant_id     = "<your-tenant-id>"
+submission_id = "<your-submission-id>"
+cost_centre   = "<your-cost-centre>"
+
+# Optional – defaults to us-east-1
+# aws_region = "us-east-1"
